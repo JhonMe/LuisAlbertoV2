@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔬 BOT ALBERTINO</title>
+    <link rel="icon" href="School LAS.png">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #e7e437 0%, #51e43d 100%);
+            margin: 0;
+            padding: 16px;
+            text-align: center;
+            animation: backgroundShift 10s ease-in-out infinite alternate;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        
+        @keyframes backgroundShift {
+            0% { background: linear-gradient(135deg, #ced12e 0%, #55dd3a 100%); }
+            100% { background: linear-gradient(135deg, #28ee53 0%, #d1ee4f 100%); }
+        }
+
+        h1 { 
+            margin-top: 0; 
+            color: white; 
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            font-weight: 700;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: titleFloat 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes titleFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
+
+        /* Botón de inicio mejorado para móvil */
+        #btn-iniciar {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 200px;
+            z-index: 1000;
+        }
+
+        #btn-iniciar:hover {
+            background: linear-gradient(45deg, #45a049, #4CAF50);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+        }
+
+        #btn-iniciar:active {
+            transform: translateY(0);
+        }
+
+        #btn-iniciar.oculto {
+            display: none;
+        }
+
+        /* Estilos de la cara mejorada */
+        #cara-container {
+            position: relative;
+            width: min(280px, 70vw);
+            height: min(280px, 70vw);
+            margin: 20px auto;
+            animation: containerFloat 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes containerFloat {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-10px) rotate(1deg); }
+        }
+        
+        .cara {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border-radius: 50%;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.2));
+        }
+
+        /* Cejas */
+        .ceja {
+            position: absolute;
+            width: 30%;
+            height: 7%;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            border-radius: 5px;
+            top: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .ceja.izquierda { 
+            left: 12%; 
+            transform: rotate(-15deg);
+            animation: eyebrowShimmer 3s ease-in-out infinite alternate;
+        }
+        .ceja.derecha { 
+            right: 12%; 
+            transform: rotate(15deg);
+            animation: eyebrowShimmer 3s ease-in-out infinite alternate 0.5s;
+        }
+        
+        @keyframes eyebrowShimmer {
+            0% { box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+            100% { box-shadow: 0 4px 15px rgba(52, 73, 94, 0.5); }
+        }
+        .cara.escuchando .ceja.izquierda {
+            transform: rotate(-25deg) translateY(-5px);
+        }
+        .cara.escuchando .ceja.derecha {
+            transform: rotate(25deg) translateY(-5px);
+        }
+
+        /* Ojos */
+        .ojo {
+            width: 33%;
+            height: 33%;
+            background: radial-gradient(circle at 30% 30%, #ffffff, #f8f9fa);
+            border-radius: 50%;
+            position: absolute;
+            top: 12%;
+            border: 3px solid #2c3e50;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .ojo.izquierdo { 
+            left: 12%; 
+            animation: eyeGlow 2s ease-in-out infinite alternate;
+        }
+        .ojo.derecho { 
+            right: 12%; 
+            animation: eyeGlow 2s ease-in-out infinite alternate 0.3s;
+        }
+        
+        @keyframes eyeGlow {
+            0% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 4px 15px rgba(0,0,0,0.2); }
+            100% { box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 6px 25px rgba(102, 126, 234, 0.4); }
+        }
+        
+        .pupila {
+            width: 28%;
+            height: 28%;
+            background: radial-gradient(circle at 30% 30%, #2c3e50, #000);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            animation: pupilShine 2.5s ease-in-out infinite;
+        }
+        
+        @keyframes pupilShine {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        /* Estados de los ojos */
+        .cara.hablando .ojo {
+            transform: scaleY(0.8);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 8px 30px rgba(245, 87, 108, 0.5);
+        }
+        .cara.escuchando .ojo {
+            transform: scaleY(1.1);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1), 0 8px 30px rgba(102, 126, 234, 0.6);
+        }
+        .cara.escuchando .pupila {
+            transform: translate(-50%, -50%) scale(1.2);
+            animation: pupilFocus 1s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pupilFocus {
+            0% { transform: translate(-50%, -50%) scale(1.2); }
+            100% { transform: translate(-50%, -50%) scale(1.3); }
+        }
+
+        /* Boca - Estado normal/escuchando */
+        .boca {
+            position: absolute;
+            bottom: 25%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+        }
+
+        .boca.sonriendo {
+            width: 65%;
+            height: 18%;
+            border: 4px solid #2c3e50;
+            border-top: none;
+            border-radius: 0 0 90px 90px;
+            background: linear-gradient(to bottom, #ff6b6b, #ff5252);
+            animation: smilePulse 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes smilePulse {
+            0% { 
+                background: linear-gradient(to bottom, #ff6b6b, #ff5252);
+                filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+            }
+            100% { 
+                background: linear-gradient(to bottom, #ff8a80, #ff6b6b);
+                filter: drop-shadow(0 6px 20px rgba(255, 107, 107, 0.4));
+            }
+        }
+
+        .boca.hablando {
+            width: 27%;
+            height: 30%;
+            background: radial-gradient(circle, #2c3e50, #000);
+            border-radius: 50%;
+            animation: speakAnimation 0.3s infinite alternate;
+            filter: drop-shadow(0 6px 20px rgba(0,0,0,0.4));
+        }
+
+        @keyframes speakAnimation {
+            0% { 
+                transform: translateX(-50%) scaleY(1);
+                background: radial-gradient(circle, #2c3e50, #000);
+            }
+            100% { 
+                transform: translateX(-50%) scaleY(1.3) scale(1.05);
+                background: radial-gradient(circle, #34495e, #2c3e50);
+            }
+        }
+
+        /* Globo de información estilo nube */
+        #globo-info {
+            position: absolute;
+            top: -120px;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 320px;
+            max-width: 90vw;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 25px;
+            padding: 20px 24px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            font-size: clamp(12px, 3vw, 14px);
+            text-align: left;
+            opacity: 0;
+            transform: translateX(-50%) translateY(-20px) scale(0.8);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 10;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: bubbleFloat 4s ease-in-out infinite alternate;
+        }
+        
+        @keyframes bubbleFloat {
+            0% { transform: translateX(-50%) translateY(-20px) scale(0.8) rotate(-0.5deg); }
+            100% { transform: translateX(-50%) translateY(-20px) scale(0.8) rotate(0.5deg); }
+        }
+
+        #globo-info::before,
+        #globo-info::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+        }
+        
+        #globo-info::before {
+            width: 20px;
+            height: 20px;
+            bottom: -12px;
+            left: 30px;
+        }
+        
+        #globo-info::after {
+            width: 15px;
+            height: 15px;
+            bottom: -18px;
+            left: 50px;
+        }
+
+        #globo-info.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .info-row { 
+            margin: 8px 0; 
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .info-title { 
+            font-weight: bold; 
+            color: #2563eb;
+            min-width: 120px;
+            margin-right: 8px;
+        }
+        .info-value {
+            color: #1f2937;
+            flex: 1;
+        }
+        .info-ok { color:#065f46; }
+        .info-err { color:#dc2626; }
+
+        /* Indicador de debug */
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: clamp(10px, 2.5vw, 12px);
+            max-width: 280px;
+            opacity: 0.8;
+            z-index: 1000;
+        }
+
+        /* Botón de micrófono para móvil */
+        #btn-mic {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: none;
+        }
+
+        #btn-mic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.6);
+        }
+
+        #btn-mic.activo {
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 210, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0); }
+        }
+
+        /* Animación de parpadeo sutil */
+        @keyframes parpadeo-sutil {
+            0%, 90%, 100% { transform: scaleY(1); }
+            95% { transform: scaleY(0.1); }
+        }
+        .cara:not(.hablando) .ojo {
+            animation: parpadeo-sutil 4s infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body { padding: 8px; }
+            #cara-container { 
+                width: min(250px, 80vw); 
+                height: min(250px, 80vw); 
+            }
+            #globo-info {
+                min-width: 280px;
+                max-width: 95vw;
+                left: 50%;
+                transform: translateX(-50%) translateY(-20px) scale(0.8);
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔬 ElementBot</h1>
+
+    <button id="btn-iniciar">🎤 Iniciar Bot</button>
+
+    <div class="debug-info" id="debug-info">
+        Toca "Iniciar Bot" para comenzar
+    </div>
+
+    <div id="cara-container">
+        <div id="globo-info"></div>
+        <div class="cara">
+            <div class="ceja izquierda"></div>
+            <div class="ceja derecha"></div>
+            <div class="ojo izquierdo"><div class="pupila"></div></div>
+            <div class="ojo derecho"><div class="pupila"></div></div>
+            <div class="boca sonriendo"></div>
+        </div>
+    </div>
+
+    <button id="btn-mic">🎤</button>
+
+    <script>
+       const ELEMENTOS = {
+            "hidrogeno":   { quechua: "Idruhinu", simbolo: "H", numero: 1, masa: "1.008" },
+            "helio":       { quechua: "Illiw", simbolo: "He", numero: 2, masa: "4.0026" },
+            "litio":       { quechua: "Rumiyuq", simbolo: "Li", numero: 3, masa: "6.94" },
+            "berilio":     { quechua: "Biriliyu", simbolo: "Be", numero: 4, masa: "9.0122" },
+            "boro":        { quechua: "Buru", simbolo: "B", numero: 5, masa: "10.81" },
+            "carbono":     { quechua: "k'illimsayaq", simbolo: "C", numero: 6, masa: "12.011" },
+            "nitrogeno":   { quechua: "chhukwi", simbolo: "N", numero: 7, masa: "14.007" },
+            "oxigeno":     { quechua: "Wayrasamay", simbolo: "O", numero: 8, masa: "15.999" },
+            "fluor":       { quechua: "Flur", simbolo: "F", numero: 9, masa: "18.998" },
+            "neon":        { quechua: "Niyun", simbolo: "Ne", numero: 10, masa: "20.180" },
+            "sodio":       { quechua: "Natriyu", simbolo: "Na", numero: 11, masa: "22.990" },
+            "magnesio":    { quechua: "Qunta", simbolo: "Mg", numero: 12, masa: "24.305" },
+            "aluminio":    { quechua: "Aluminiyu", simbolo: "Al", numero: 13, masa: "26.982" },
+            "silicio":     { quechua: "Silisiyu", simbolo: "Si", numero: 14, masa: "28.085" },
+            "fosforo":     { quechua: "Fusfuru", simbolo: "P", numero: 15, masa: "30.974" },
+            "azufre":      { quechua: "Salliy", simbolo: "S", numero: 16, masa: "32.06" },
+            "cloro":       { quechua: "Kluru", simbolo: "Cl", numero: 17, masa: "35.45" },
+            "argon":       { quechua: "Arkun", simbolo: "Ar", numero: 18, masa: "39.948" },
+            "potasio":     { quechua: "Putasiyu", simbolo: "K", numero: 19, masa: "39.098" },
+            "calcio":      { quechua: "Iskuya", simbolo: "Ca", numero: 20, masa: "40.078" },
+            "escandio":    { quechua: "Iskandiyu", simbolo: "Sc", numero: 21, masa: "44.956" },
+            "titanio":     { quechua: "Titaniyu", simbolo: "Ti", numero: 22, masa: "47.867" },
+            "vanadio":     { quechua: "Vanadiyu", simbolo: "V", numero: 23, masa: "50.942" },
+            "cromo":       { quechua: "Krumu", simbolo: "Cr", numero: 24, masa: "51.996" },
+            "manganeso":   { quechua: "Mankanisu", simbolo: "Mn", numero: 25, masa: "54.938" },
+            "hierro":      { quechua: "Q'illay", simbolo: "Fe", numero: 26, masa: "55.845" },
+            "cobalto":     { quechua: "Ankasi", simbolo: "Co", numero: 27, masa: "58.933" },
+            "niquel":      { quechua: "Nikil", simbolo: "Ni", numero: 28, masa: "58.693" },
+            "cobre":       { quechua: "Anta", simbolo: "Cu", numero: 29, masa: "63.546" },
+            "zinc":        { quechua: "Sink", simbolo: "Zn", numero: 30, masa: "65.38" },
+            "galio":       { quechua: "Galiu", simbolo: "Ga", numero: 31, masa: "69.723" },
+            "germanio":    { quechua: "Hirmaniyu", simbolo: "Ge", numero: 32, masa: "72.630" },
+            "arsenico":    { quechua: "Arsiniku", simbolo: "As", numero: 33, masa: "74.922" },
+            "selenio":     { quechua: "Siliniyu", simbolo: "Se", numero: 34, masa: "78.971" },
+            "bromo":       { quechua: "Brumu", simbolo: "Br", numero: 35, masa: "79.904" },
+            "kripton":     { quechua: "Kripton", simbolo: "Kr", numero: 36, masa: "83.798" },
+            "rubidio":     { quechua: "Rupidiyu", simbolo: "Rb", numero: 37, masa: "85.468" },
+            "estroncio":   { quechua: "Istrunsiyu", simbolo: "Sr", numero: 38, masa: "87.62" },
+            "itrio":       { quechua: "Itriyu", simbolo: "Y", numero: 39, masa: "88.906" },
+            "circonio":    { quechua: "Sircunio", simbolo: "Zr", numero: 40, masa: "91.224" },
+            "niobio":      { quechua: "Niyubiyu", simbolo: "Nb", numero: 41, masa: "92.906" },
+            "molibdeno":   { quechua: "Muliptiniyu", simbolo: "Mo", numero: 42, masa: "95.95" },
+            "tecnecio":    { quechua: "Tiknisiyu", simbolo: "Tc", numero: 43, masa: "98" },
+            "rutenio":     { quechua: "Ruthiniyu", simbolo: "Ru", numero: 44, masa: "101.07" },
+            "rodio":       { quechua: "Rutiyu", simbolo: "Rh", numero: 45, masa: "102.91" },
+            "paladio":     { quechua: "Qullqiya", simbolo: "Pd", numero: 46, masa: "106.42" },
+            "plata":       { quechua: "Qullqi", simbolo: "Ag", numero: 47, masa: "107.868" },
+            "cadmio":      { quechua: "Kadmiyu", simbolo: "Cd", numero: 48, masa: "112.41" },
+            "indio":       { quechua: "Indiyu", simbolo: "In", numero: 49, masa: "114.82" },
+            "estaño":      { quechua: "Chayanta", simbolo: "Sn", numero: 50, masa: "118.71" },
+            "antimonio":   { quechua: "Hanku", simbolo: "Sb", numero: 51, masa: "121.76" },
+            "telurio":     { quechua: "Tiluriyu", simbolo: "Te", numero: 52, masa: "127.60" },
+            "yodo":        { quechua: "Yudu", simbolo: "I", numero: 53, masa: "126.90" },
+            "xenon":       { quechua: "Sinun", simbolo: "Xe", numero: 54, masa: "131.29" },
+            "cesio":       { quechua: "Sisiyu", simbolo: "Cs", numero: 55, masa: "132.91" },
+            "bario":       { quechua: "Bariyu", simbolo: "Ba", numero: 56, masa: "137.33" },
+            "lantano":     { quechua: "Lanthanu", simbolo: "La", numero: 57, masa: "138.91" },
+            "cerio":       { quechua: "Siriyu", simbolo: "Ce", numero: 58, masa: "140.12" },
+            "praseodimio": { quechua: "Prasiyudimiyu", simbolo: "Pr", numero: 59, masa: "140.91" },
+            "neodimio":    { quechua: "Neodimiyu", simbolo: "Nd", numero: 60, masa: "144.24" },
+            "prometio":    { quechua: "Prumithiyu", simbolo: "Pm", numero: 61, masa: "145" },
+            "samario":     { quechua: "Samariyu", simbolo: "Sm", numero: 62, masa: "150.36" },
+            "europio":     { quechua: "Eyurupiyu", simbolo: "Eu", numero: 63, masa: "151.96" },
+            "gadolinio":   { quechua: "Gaduliniyu", simbolo: "Gd", numero: 64, masa: "157.25" },
+            "terbio":      { quechua: "Tirbiyu", simbolo: "Tb", numero: 65, masa: "158.93" },
+            "disprosio":   { quechua: "Disprusiyu", simbolo: "Dy", numero: 66, masa: "162.50" },
+            "holmio":      { quechua: "Ulmiyu", simbolo: "Ho", numero: 67, masa: "164.93" },
+            "erbio":       { quechua: "Irbiyu", simbolo: "Er", numero: 68, masa: "167.26" },
+            "tulio":       { quechua: "Thuliyu", simbolo: "Tm", numero: 69, masa: "168.93" },
+            "iterbio":     { quechua: "Itirbiyu", simbolo: "Yb", numero: 70, masa: "173.05" },
+            "lutecio":     { quechua: "Lutisiyu", simbolo: "Lu", numero: 71, masa: "174.97" },
+            "hafnio":      { quechua: "Hafniyu", simbolo: "Hf", numero: 72, masa: "178.49" },
+            "tantalio":    { quechua: "Tantaliyu", simbolo: "Ta", numero: 73, masa: "180.95" },
+            "wolframio":   { quechua: "Wulframiyu", simbolo: "W", numero: 74, masa: "183.84" },
+            "renio":       { quechua: "Riniyu", simbolo: "Re", numero: 75, masa: "186.21" },
+            "osmio":       { quechua: "Usmiyu", simbolo: "Os", numero: 76, masa: "190.23" },
+            "iridio":      { quechua: "iritdiyu", simbolo: "Ir", numero: 77, masa: "192.22" },
+            "platino":     { quechua: "Paladiyu", simbolo: "Pt", numero: 78, masa: "195.08" },
+            "oro":         { quechua: "Quri", simbolo: "Au", numero: 79, masa: "196.97" },
+            "mercurio":    { quechua: "Qatuylla", simbolo: "Hg", numero: 80, masa: "200.59" },
+            "talio":       { quechua: "Thaliyu", simbolo: "Tl", numero: 81, masa: "204.38" },
+            "plomo":       { quechua: "T'iti", simbolo: "Pb", numero: 82, masa: "207.2" },
+            "bismuto":     { quechua: "Bismutu", simbolo: "Bi", numero: 83, masa: "208.98" },
+            "polonio":     { quechua: "Puluniyu", simbolo: "Po", numero: 84, masa: "209" },
+            "astato":      { quechua: "Astatu", simbolo: "At", numero: 85, masa: "210" },
+            "radon":       { quechua: "Radun", simbolo: "Rn", numero: 86, masa: "222" },
+            "francio":     { quechua: "Fransiyu", simbolo: "Fr", numero: 87, masa: "223" },
+            "radio":       { quechua: "Radiyu", simbolo: "Ra", numero: 88, masa: "226" },
+            "actinio":     { quechua: "Aktiniyu", simbolo: "Ac", numero: 89, masa: "227" },
+            "torio":       { quechua: "Thuriyu", simbolo: "Th", numero: 90, masa: "232.04" },
+            "protactinio": { quechua: "Prutaktiniyu", simbolo: "Pa", numero: 91, masa: "231.04" },
+            "uranio":      { quechua: "Uraniyu", simbolo: "U", numero: 92, masa: "238.03" },
+            "neptunio":    { quechua: "Niptuniyu", simbolo: "Np", numero: 93, masa: "237" },
+            "plutonio":    { quechua: "Plutuniyu", simbolo: "Pu", numero: 94, masa: "244" },
+            "americio":    { quechua: "Amirisiyu", simbolo: "Am", numero: 95, masa: "243" },
+            "curio":       { quechua: "Kuriyu", simbolo: "Cm", numero: 96, masa: "247" },
+            "berkelio":    { quechua: "Birkiliyu", simbolo: "Bk", numero: 97, masa: "247" },
+            "californio":  { quechua: "Kalifurniyu", simbolo: "Cf", numero: 98, masa: "251" },
+            "einsteinio":  { quechua: "Instiniyu", simbolo: "Es", numero: 99, masa: "252" },
+            "fermio":      { quechua: "Firmiyu", simbolo: "Fm", numero: 100, masa: "257" },
+            "mendelevio":  { quechua: "Mindiliviyu", simbolo: "Md", numero: 101, masa: "258" },
+            "nobelio":     { quechua: "Nubiliyu", simbolo: "No", numero: 102, masa: "259" },
+            "lawrencio":   { quechua: "Lawrinsiyu", simbolo: "Lr", numero: 103, masa: "266" },
+            "rutherfordio":{ quechua: "Ruthirfurdiyu", simbolo: "Rf", numero: 104, masa: "267" },
+            "dubnio":      { quechua: "Dubniyu", simbolo: "Db", numero: 105, masa: "268" },
+            "seaborgio":   { quechua: "Siyaburhiyu", simbolo: "Sg", numero: 106, masa: "269" },
+            "bohrio":      { quechua: "Buriyu", simbolo: "Bh", numero: 107, masa: "270" },
+            "hassio":      { quechua: "Asiyu", simbolo: "Hs", numero: 108, masa: "277" },
+            "meitnerio":   { quechua: "Mitniriyu", simbolo: "Mt", numero: 109, masa: "278" },
+            "darmstadtio": { quechua: "Darmstatiyu", simbolo: "Ds", numero: 110, masa: "281" },
+            "roentgenio":  { quechua: "Ruyinthiniyu", simbolo: "Rg", numero: 111, masa: "282" },
+            "copernicio":  { quechua: "Kupirnisiyu", simbolo: "Cn", numero: 112, masa: "285" },
+            "nihonio":     { quechua: "Nihuniyu", simbolo: "Nh", numero: 113, masa: "286" },
+            "flerovio":    { quechua: "Flirupiyu", simbolo: "Fl", numero: 114, masa: "289" },
+            "moscovio":    { quechua: "Muskuviyu", simbolo: "Mc", numero: 115, masa: "290" },
+            "livermorio":  { quechua: "Lipirmuniyu", simbolo: "Lv", numero: 116, masa: "293" },
+            "teneso":      { quechua: "Tinisiyu", simbolo: "Ts", numero: 117, masa: "294" },
+            "oganeson":    { quechua: "Ukanisun", simbolo: "Og", numero: 118, masa: "294" }
+        };
+
+        // SISTEMA DE SINÓNIMOS Y VARIACIONES PARA MEJORAR RECONOCIMIENTO
+        const SINONIMOS = {
+            "germanio": ["jemanio", "hermano", "hermaniyo", "jermanio"],
+            "prometio": ["promethio", "prometeo", "promiteyo"],
+            "terbio": ["terbiyo", "tervio", "terbium"],
+            "wolframio": ["tungsteno", "wulfranio", "volframio"],
+            "niquel": ["nikel", "niqel", "níquel"],
+            "azufre": ["asufre", "sufre"],
+            "fosforo": ["fosforo", "phosphoro", "fosfor"],
+            "yodo": ["iodo", "yodin", "iodin"],
+            "xenon": ["senon", "ksenon"],
+            "cesio": ["cesareo", "sesio"],
+            "estaño": ["estanio", "estano"],
+            "antimonio": ["antimoniyo"],
+            "arsenico": ["arsnico", "arseniko"],
+            "selenio": ["seleniyo", "selenium"],
+            "bromo": ["bromio"],
+            "kripton": ["cripton", "krypton"],
+            "rubidio": ["rubidium"],
+            "circonio": ["zirconio", "sirconio"],
+            "molibdeno": ["moliptino", "molybdeno"],
+            "tecnecio": ["teknesio"],
+            "rutenio": ["ruthenio"],
+            "rodio": ["rhodio"],
+            "paladio": ["paladiym"],
+            "cadmio": ["kadmio"],
+            "indio": ["indiym"],
+            "telurio": ["tellurio"],
+            "bario": ["bariym"],
+            "lantano": ["lanthano"],
+            "cerio": ["seriyo"],
+            "praseodimio": ["praseodimium"],
+            "neodimio": ["neodimium"],
+            "samario": ["samarium"],
+            "europio": ["europium"],
+            "gadolinio": ["gadolinium"],
+            "disprosio": ["disprosium"],
+            "holmio": ["holmium"],
+            "erbio": ["erbium"],
+            "tulio": ["thulium"],
+            "iterbio": ["ytterbio", "iterbium"],
+            "lutecio": ["lutetium"],
+            "hafnio": ["hafnium"],
+            "tantalio": ["tantalum"],
+            "renio": ["rhenium"],
+            "osmio": ["osmium"],
+            "iridio": ["iridium"],
+            "platino": ["platinum"],
+            "mercurio": ["mercury"],
+            "talio": ["thallium"],
+            "bismuto": ["bismuth"],
+            "polonio": ["polonium"],
+            "astato": ["astatine"],
+            "radon": ["radón"],
+            "francio": ["francium"],
+            "radio": ["radium"],
+            "actinio": ["actinium"],
+            "torio": ["thorium"],
+            "protactinio": ["protactinium"],
+            "uranio": ["uranium"],
+            "neptunio": ["neptunium"],
+            "plutonio": ["plutonium"],
+            "americio": ["americium"]
+        };
+
+        const STOPWORDS = new Set(["el","la","los","las","un","una","del","de","al","quiero","saber","sobre","del","elemento","elmento","por","favor","dime","di"]);
+
+        let modo = "preguntarElemento";
+        const globoInfo = document.getElementById('globo-info');
+        const debugInfo = document.getElementById('debug-info');
+        const cara = document.querySelector('.cara');
+        const boca = document.querySelector('.boca');
+        const btnIniciar = document.getElementById('btn-iniciar');
+        const btnMic = document.getElementById('btn-mic');
+
+        let sesionActiva = false;
+        let reconocimientoActual = null;
+        let mejorVoz = null;
+        let vocesDisponibles = [];
+        let sistemaIniciado = false;
+        let esMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let esBrave = navigator.userAgent.includes('Brave') || (navigator.brave && navigator.brave.isBrave());
+        let intentosReconexion = 0;
+        let tiempoEsperaReconexion = 1000;
+
+        // =============================================================================
+        // SISTEMA DE VOCES MEJORADO - OPTIMIZADO PARA VELOCIDAD
+        // =============================================================================
+
+        function inicializarVoces() {
+            return new Promise((resolve) => {
+                const cargarVoces = () => {
+                    vocesDisponibles = speechSynthesis.getVoices();
+                    
+                    if (vocesDisponibles.length === 0) {
+                        setTimeout(cargarVoces, 100);
+                        return;
+                    }
+
+                    const vocesEspanol = vocesDisponibles.filter(voz => {
+                        const lang = voz.lang.toLowerCase();
+                        const nombre = voz.name.toLowerCase();
+                        return lang.includes('es') || lang.includes('spa') || nombre.includes('spanish');
+                    });
+
+                    const prioridades = [
+                        /peru|pe[-_]|es[-_]pe/i,
+                        /latin|america|neutral|es[-_](co|mx|ar|cl|ve|ec)/i,
+                        /neural|premium|enhanced|natural|google|microsoft.*spanish/i,
+                        /^(?!.*es[-_]es).*es/i,
+                        /female|mujer|woman|maria|carmen|sofia|elena|lucia|paloma/i
+                    ];
+
+                    let mejorPuntuacion = -1;
+                    mejorVoz = null;
+
+                    vocesEspanol.forEach(voz => {
+                        let puntuacion = 0;
+                        
+                        prioridades.forEach((patron, indice) => {
+                            if (patron.test(voz.name) || patron.test(voz.lang)) {
+                                puntuacion += (prioridades.length - indice) * 10;
+                            }
+                        });
+
+                        if (voz.localService) puntuacion += 5;
+                        if (/female|woman|f$/i.test(voz.name)) puntuacion += 3;
+                        
+                        if (/es[-_]es|spain|españa/i.test(voz.lang) || /es[-_]es/i.test(voz.name)) {
+                            puntuacion -= 15;
+                        }
+                        
+                        if (/robotic|microsoft.*sam|default|basic/i.test(voz.name)) {
+                            puntuacion -= 5;
+                        }
+
+                        if (puntuacion > mejorPuntuacion) {
+                            mejorPuntuacion = puntuacion;
+                            mejorVoz = voz;
+                        }
+                    });
+
+                    if (!mejorVoz && vocesDisponibles.length > 0) {
+                        const vozFallback = vocesEspanol.find(v => 
+                            !(/es[-_]es|spain|españa/i.test(v.lang))
+                        ) || vocesEspanol[0];
+                        mejorVoz = vozFallback;
+                    }
+
+                    console.log("Voz seleccionada:", mejorVoz ? {
+                        nombre: mejorVoz.name,
+                        idioma: mejorVoz.lang,
+                        local: mejorVoz.localService
+                    } : "Ninguna");
+
+                    resolve();
+                };
+
+                if (speechSynthesis.getVoices().length > 0) {
+                    cargarVoces();
+                } else {
+                    speechSynthesis.addEventListener('voiceschanged', cargarVoces);
+                    setTimeout(cargarVoces, 1000);
+                }
+            });
+        }
+
+        function normalizar(txt) {
+            return txt
+                .toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+                .replace(/[.,;:!?¿¡()"']/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+        }
+
+        function limpiarStopwords(frase) {
+            const palabras = frase.split(' ').filter(w => !STOPWORDS.has(w));
+            return palabras.join(' ').trim();
+        }
+
+        function mostrarDebug(mensaje) {
+            debugInfo.innerHTML = mensaje;
+        }
+
+        // =============================================================================
+        // FUNCIÓN DE HABLA OPTIMIZADA
+        // =============================================================================
+        async function hablar(texto, lang="es-PE") {
+            return new Promise((resolve) => {
+                // Cancelar cualquier síntesis previa
+                speechSynthesis.cancel();
+                
+                setTimeout(() => {
+                    const u = new SpeechSynthesisUtterance(texto);
+                    
+                    if (mejorVoz) {
+                        u.voice = mejorVoz;
+                        u.lang = mejorVoz.lang;
+                    } else {
+                        u.lang = "es-PE";
+                    }
+
+                    u.rate = 1.0;
+                    u.pitch = 1.0;
+                    u.volume = 0.95;
+
+                    cara.classList.remove('escuchando');
+                    cara.classList.add('hablando');
+                    boca.classList.remove('sonriendo');
+                    boca.classList.add('hablando');
+
+                    u.onend = () => {
+                        cara.classList.remove('hablando');
+                        boca.classList.remove('hablando');
+                        boca.classList.add('sonriendo');
+                        resolve();
+                    };
+
+                    u.onerror = (error) => {
+                        console.error('Error en síntesis de voz:', error);
+                        cara.classList.remove('hablando');
+                        boca.classList.remove('hablando');
+                        boca.classList.add('sonriendo');
+                        resolve();
+                    };
+
+                    speechSynthesis.speak(u);
+                }, 100);
+            });
+        }
+
+        function estadoEscuchando() {
+            cara.classList.remove('hablando');
+            cara.classList.add('escuchando');
+            boca.classList.remove('hablando');
+            boca.classList.add('sonriendo');
+            btnMic.classList.add('activo');
+        }
+
+        function estadoNormal() {
+            cara.classList.remove('hablando', 'escuchando');
+            boca.classList.remove('hablando');
+            boca.classList.add('sonriendo');
+            btnMic.classList.remove('activo');
+        }
+
+        function tieneAPI() {
+            return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+        }
+
+        // =============================================================================
+        // SOLICITAR PERMISOS DE MICRÓFONO MEJORADO ESPECÍFICAMENTE PARA BRAVE
+        // =============================================================================
+        async function solicitarPermisosMicrofono() {
+            // Verificar si ya tenemos permisos
+            if (navigator.permissions) {
+                try {
+                    const permission = await navigator.permissions.query({ name: 'microphone' });
+                    if (permission.state === 'granted') {
+                        return true;
+                    }
+                } catch (e) {
+                    // Continuar con el método tradicional
+                }
+            }
+
+            try {
+                // Configuración específica para Brave
+                const constraints = {
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                    }
+                };
+
+                // En Brave, a veces necesitamos ser más específicos
+                if (esBrave) {
+                    constraints.audio.autoGainControl = true;
+                    constraints.audio.channelCount = 1;
+                }
+
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                
+                // Cerrar el stream inmediatamente
+                stream.getTracks().forEach(track => track.stop());
+                
+                mostrarDebug('Permisos de micrófono concedidos');
+                return true;
+                
+            } catch (error) {
+                console.error('Error al solicitar permisos de micrófono:', error);
+                
+                let mensajeError = 'Necesito permisos de micrófono para funcionar';
+                if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    if (esBrave) {
+                        mensajeError = 'En Brave: Ve a Configuración del escudo > Desactivar protecciones para esta página, luego permite el micrófono';
+                    } else {
+                        mensajeError = 'Permisos de micrófono denegados. Por favor, permite el acceso y recarga la página.';
+                    }
+                } else if (error.name === 'NotFoundError') {
+                    mensajeError = 'No se encontró micrófono. Verifica que tu dispositivo tenga uno.';
+                } else if (error.name === 'NotReadableError') {
+                    mensajeError = 'Micrófono ocupado por otra aplicación. Ciérrala e inténtalo de nuevo.';
+                }
+                
+                mostrarDebug(mensajeError);
+                const htmlErr = `<div class="info-err">${mensajeError}</div>`;
+                mostrarGloboInfo(htmlErr);
+                return false;
+            }
+        }
+
+        // =============================================================================
+        // RECONOCIMIENTO DE VOZ MEJORADO ESPECÍFICAMENTE PARA BRAVE Y EDGE
+        // =============================================================================
+        function crearRecon() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) {
+                mostrarDebug('Reconocimiento de voz no disponible en este dispositivo');
+                return null;
+            }
+
+            const r = new SR();
+            
+            // Configuración específica según el navegador
+            if (esBrave) {
+                // Configuración específica para Brave
+                r.lang = "es-ES"; // Brave funciona mejor con es-ES
+                r.interimResults = false;
+                r.maxAlternatives = 1;
+                r.continuous = false;
+                
+                // Brave a veces necesita más tiempo
+                r.grammars = null; // Evitar uso de gramáticas en Brave
+                
+            } else if (navigator.userAgent.includes('Edge') || navigator.userAgent.includes('Edg')) {
+                // Configuración específica para Edge
+                r.lang = "es-PE";
+                r.interimResults = false;
+                r.maxAlternatives = 3; // Edge maneja mejor múltiples alternativas
+                r.continuous = false;
+                
+            } else {
+                // Configuración para Chrome y otros
+                r.lang = "es-ES";
+                r.interimResults = false;
+                r.maxAlternatives = 1;
+                r.continuous = false;
+            }
+
+            r.onstart = () => {
+                estadoEscuchando();
+                ocultarGloboInfo();
+                mostrarDebug('Escuchando... Habla ahora');
+                intentosReconexion = 0; // Resetear contador de reconexiones
+            };
+
+            r.onspeechstart = () => {
+                mostrarDebug('Te escucho...');
+            };
+
+            r.onspeechend = () => {
+                mostrarDebug('Procesando...');
+            };
+
+            return r;
+        }
+
+        // =============================================================================
+        // INICIALIZACIÓN DEL SISTEMA MEJORADA
+        // =============================================================================
+        async function iniciarSistema() {
+            if (sistemaIniciado) return;
+            
+            mostrarDebug('Inicializando sistema...');
+            btnIniciar.textContent = 'Cargando...';
+            btnIniciar.disabled = true;
+
+            // Verificar soporte de API primero
+            if (!tieneAPI()) {
+                mostrarDebug('Reconocimiento de voz no soportado en este navegador');
+                const htmlErr = `<div class="info-err">Tu navegador no soporta reconocimiento de voz. Prueba con Chrome, Edge o Firefox.</div>`;
+                mostrarGloboInfo(htmlErr);
+                btnIniciar.textContent = 'No Compatible';
+                return;
+            }
+
+            // Mensaje específico para Brave
+            if (esBrave) {
+                mostrarDebug('Brave detectado - Configurando compatibilidad...');
+            }
+
+            // Inicializar voces primero
+            await inicializarVoces();
+
+            // Solicitar permisos de micrófono con reintentos específicos para Brave
+            let intentosPermisos = 0;
+            let tienePermisos = false;
+            const maxIntentos = esBrave ? 2 : 3; // Menos intentos en Brave para evitar bloqueos
+            
+            while (intentosPermisos < maxIntentos && !tienePermisos) {
+                intentosPermisos++;
+                mostrarDebug(`Solicitando permisos de micrófono (intento ${intentosPermisos}/${maxIntentos})...`);
+                
+                try {
+                    tienePermisos = await solicitarPermisosMicrofono();
+                    if (tienePermisos) break;
+                    
+                    // Esperar un momento antes del siguiente intento
+                    await new Promise(resolve => setTimeout(resolve, esBrave ? 2000 : 1000));
+                    
+                } catch (error) {
+                    console.error('Error en intento de permisos:', error);
+                }
+            }
+
+            if (!tienePermisos) {
+                mostrarDebug('No se pudieron obtener permisos de micrófono');
+                let mensaje = 'Sin permisos de micrófono';
+                let instrucciones = '1. Haz clic en el ícono del micrófono/candado en la barra de direcciones<br>2. Permite el acceso al micrófono<br>3. Recarga la página';
+                
+                if (esBrave) {
+                    instrucciones = '1. Haz clic en el escudo de Brave en la barra de direcciones<br>2. Desactiva las protecciones para esta página<br>3. Permite el micrófono cuando se solicite<br>4. Recarga la página';
+                }
+                
+                const htmlErr = `<div class="info-err">
+                    <strong>${mensaje}</strong><br>
+                    <small>${instrucciones}</small>
+                </div>`;
+                mostrarGloboInfo(htmlErr);
+                btnIniciar.textContent = 'Reintentar';
+                btnIniciar.disabled = false;
+                return;
+            }
+
+            sistemaIniciado = true;
+            
+            btnIniciar.classList.add('oculto');
+            btnMic.style.display = 'block';
+            
+            mostrarDebug('Sistema listo - Pregunta por un elemento químico');
+            
+            // Saludo inicial
+            try {
+                await hablar("Hola, soy Luisa. ¿Qué elemento químico quieres conocer?");
+                mostrarDebug('Toca el botón del micrófono y pregunta por un elemento');
+            } catch (error) {
+                console.error('Error en saludo inicial:', error);
+                mostrarDebug('Sistema listo. Toca el micrófono para comenzar');
+            }
+        }
+
+        // =============================================================================
+        // FUNCIONES DE ESCUCHA MEJORADAS CON RECUPERACIÓN DE ERRORES
+        // =============================================================================
+        function escucharElemento() {
+            if (reconocimientoActual) {
+                try { 
+                    reconocimientoActual.abort();
+                    reconocimientoActual = null;
+                } catch(e) {
+                    console.log('Error al detener reconocimiento anterior:', e);
+                }
+            }
+            
+            // Esperar un momento antes de crear nuevo reconocimiento
+            setTimeout(() => {
+                sesionActiva = true;
+                modo = "preguntarElemento";
+                
+                const rec = crearRecon();
+                if (!rec) return;
+                
+                reconocimientoActual = rec;
+
+                rec.onresult = (e) => {
+                    if (e.results.length > 0) {
+                        let mejorResultado = "";
+                        let mejorConfianza = 0;
+                        
+                        // En Edge, revisar múltiples alternativas si están disponibles
+                        for (let i = 0; i < e.results[0].length; i++) {
+                            const alternativa = e.results[0][i];
+                            if (alternativa.confidence > mejorConfianza) {
+                                mejorConfianza = alternativa.confidence;
+                                mejorResultado = alternativa.transcript;
+                            }
+                        }
+                        
+                        if (!mejorResultado && e.results[0][0]) {
+                            mejorResultado = e.results[0][0].transcript;
+                        }
+                        
+                        if (mejorResultado) {
+                            procesarElemento(mejorResultado);
+                        }
+                    }
+                };
+
+                rec.onerror = (error) => {
+                    estadoNormal();
+                    console.error("Error de reconocimiento:", error);
+                    
+                    let mensajeError = "Error de audio";
+                    let solucion = "Toca el botón para reintentar";
+                    let puedeReintentar = true;
+                    
+                    switch(error.error) {
+                        case 'no-speech':
+                            mensajeError = "No escuché nada";
+                            solucion = "Habla más fuerte y claro. Toca para reintentar";
+                            break;
+                        case 'network':
+                            if (esBrave) {
+                                mensajeError = "Error de red en Brave";
+                                solucion = "Desactiva el escudo de Brave para esta página o usa Chrome/Edge";
+                                puedeReintentar = false;
+                            } else {
+                                mensajeError = "Error de red";
+                                solucion = "Verifica tu conexión a internet. Toca para reintentar";
+                            }
+                            break;
+                        case 'not-allowed':
+                            mensajeError = "Permisos de micrófono denegados";
+                            solucion = "Permite el micrófono en la barra de direcciones y recarga";
+                            puedeReintentar = false;
+                            break;
+                        case 'service-not-allowed':
+                            if (esBrave) {
+                                mensajeError = "Servicio bloqueado por Brave";
+                                solucion = "Desactiva el escudo de Brave para esta página";
+                            } else {
+                                mensajeError = "Servicio no permitido";
+                                solucion = "Verifica la conexión HTTPS. Toca para reintentar";
+                            }
+                            break;
+                        case 'bad-grammar':
+                        case 'language-not-supported':
+                            mensajeError = "No pude entender";
+                            solucion = "Habla más claro. Toca para reintentar";
+                            break;
+                        default:
+                            if (esBrave) {
+                                mensajeError = "Problema en Brave";
+                                solucion = "Desactiva el escudo de Brave o usa Chrome/Edge";
+                            }
+                            break;
+                    }
+                    
+                    const htmlErr = `<div class="info-err">${mensajeError}<br><small>${solucion}</small></div>`;
+                    mostrarGloboInfo(htmlErr);
+                    mostrarDebug(`${mensajeError}. ${solucion}`);
+                    
+                    // Implementar reintento automático para ciertos errores
+                    if (puedeReintentar && (error.error === 'no-speech' || error.error === 'aborted')) {
+                        intentosReconexion++;
+                        if (intentosReconexion < 3) {
+                            setTimeout(() => {
+                                mostrarDebug(`Reintentando automáticamente (${intentosReconexion}/3)...`);
+                                escucharElemento();
+                            }, tiempoEsperaReconexion);
+                            tiempoEsperaReconexion *= 1.5; // Incrementar tiempo de espera
+                        }
+                    }
+                };
+
+                rec.onend = () => {
+                    estadoNormal();
+                    reconocimientoActual = null;
+                };
+
+                try {
+                    rec.start();
+                } catch (error) {
+                    console.error('Error al iniciar reconocimiento:', error);
+                    mostrarDebug('Error al iniciar micrófono. Toca para reintentar');
+                    estadoNormal();
+                    reconocimientoActual = null;
+                }
+            }, 200); // Esperar 200ms antes de crear nuevo reconocimiento
+        }
+
+        function procesarElemento(original) {
+            estadoNormal();
+            const limpio = limpiarStopwords(normalizar(original));
+            
+            mostrarDebug(`Escuché: "${original}"`);
+            
+            const encontrado = buscarElementoMejorado(limpio, original);
+            
+            if (encontrado) {
+                mostrarElemento(encontrado.clave, encontrado.data, original);
+            } else {
+                const htmlErr = `<div class="info-err">No encontré: <b>${original}</b></div>`;
+                mostrarGloboInfo(htmlErr);
+                hablar(`No encontré ${original}. Dime otro elemento.`).then(() => {
+                    mostrarDebug('Toca el botón para preguntar otro elemento');
+                });
+            }
+            
+            // Resetear contadores de reconexión tras éxito
+            intentosReconexion = 0;
+            tiempoEsperaReconexion = 1000;
+        }
+
+        function escucharConfirmacion() {
+            if (reconocimientoActual) {
+                try { 
+                    reconocimientoActual.abort();
+                    reconocimientoActual = null;
+                } catch(e) {}
+            }
+            
+            setTimeout(() => {
+                const rec = crearRecon();
+                if (!rec) return;
+                
+                reconocimientoActual = rec;
+
+                rec.onresult = (e) => {
+                    if (e.results.length > 0) {
+                        const respuesta = e.results[0][0].transcript;
+                        procesarConfirmacion(respuesta);
+                    }
+                };
+
+                rec.onerror = (error) => {
+                    estadoNormal();
+                    console.error("Error en confirmación:", error);
+                    
+                    // Manejar error específico de Edge donde se queda en loop
+                    if (error.error === 'no-speech' && navigator.userAgent.includes('Edge')) {
+                        hablar("No escuché respuesta. ¿Quieres otro elemento? Di sí o no.").then(() => {
+                            mostrarDebug('Di "sí" o "no"');
+                        });
+                        return;
+                    }
+                    
+                    const htmlErr = `<div class="info-err">No entendí</div>`;
+                    mostrarGloboInfo(htmlErr);
+                    hablar("¿Otro elemento? Di sí o no.").then(() => {
+                        mostrarDebug('Di "sí" o "no"');
+                    });
+                };
+
+                rec.onend = () => {
+                    estadoNormal();
+                    reconocimientoActual = null;
+                };
+
+                try {
+                    rec.start();
+                } catch (error) {
+                    estadoNormal();
+                    mostrarDebug('Error al iniciar micrófono');
+                    reconocimientoActual = null;
+                }
+            }, 200);
+        }
+
+        function procesarConfirmacion(respuesta) {
+            estadoNormal();
+            const resp = normalizar(respuesta);
+            
+            const htmlDicho = `<div class="info-row"><span class="info-title">Dijiste:</span><span class="info-value">${respuesta}</span></div>`;
+            mostrarGloboInfo(htmlDicho);
+
+            if (/\bno\b/.test(resp)) {
+                hablar("Nos vemos pronto, Albertino. Tupananchiskama.").then(() => {
+                    const htmlFinal = `<div class="info-row"><span class="info-title">Hasta luego:</span><span class="info-value"><b>Tupananchiskama</b></span></div>`;
+                    mostrarGloboInfo(htmlFinal);
+                    sesionActiva = false;
+                    mostrarDebug('Toca "Iniciar Bot" para comenzar de nuevo');
+                    btnIniciar.classList.remove('oculto');
+                    btnMic.style.display = 'none';
+                    sistemaIniciado = false;
+                    // Reset variables
+                    modo = "preguntarElemento";
+                    intentosReconexion = 0;
+                    tiempoEsperaReconexion = 1000;
+                });
+            } else if (/\bsi\b/.test(resp) || /\bclaro\b/.test(resp) || /\bya\b/.test(resp) || /\bbueno\b/.test(resp)) {
+                // CAMBIO CRÍTICO: Resetear modo antes de preguntar por otro elemento
+                modo = "preguntarElemento";
+                hablar("¿Qué elemento?").then(() => {
+                    mostrarDebug('Toca el botón y pregunta por un elemento');
+                });
+            } else {
+                // Mantener el modo en confirmación
+                hablar("Di sí o no.").then(() => {
+                    mostrarDebug('Di "sí" o "no"');
+                });
+            }
+        }
+
+        // =============================================================================
+        // BÚSQUEDA MEJORADA DE ELEMENTOS
+        // =============================================================================
+        
+        function buscarElementoMejorado(fraseLimpia, fraseOriginal) {
+            // 1. Búsqueda exacta
+            if (ELEMENTOS[fraseLimpia]) {
+                return { clave: fraseLimpia, data: ELEMENTOS[fraseLimpia] };
+            }
+
+            // 2. Buscar por sinónimos
+            for (const [elemento, sinonimos] of Object.entries(SINONIMOS)) {
+                for (const sinonimo of sinonimos) {
+                    const sinonimoNorm = normalizar(sinonimo);
+                    if (fraseLimpia.includes(sinonimoNorm) || sinonimoNorm.includes(fraseLimpia)) {
+                        if (ELEMENTOS[elemento]) {
+                            return { clave: elemento, data: ELEMENTOS[elemento] };
+                        }
+                    }
+                }
+            }
+
+            // 3. Búsqueda por coincidencia parcial en nombres de elementos
+            for (const clave of Object.keys(ELEMENTOS)) {
+                const re = new RegExp(`\\b${clave}\\b`, 'i');
+                if (re.test(fraseLimpia)) {
+                    return { clave, data: ELEMENTOS[clave] };
+                }
+            }
+
+            // 4. Búsqueda más flexible - coincidencia parcial
+            for (const clave of Object.keys(ELEMENTOS)) {
+                if (fraseLimpia.includes(clave) || clave.includes(fraseLimpia)) {
+                    const coincidencia = Math.max(
+                        fraseLimpia.length / clave.length,
+                        clave.length / fraseLimpia.length
+                    );
+                    if (coincidencia > 0.5) {
+                        return { clave, data: ELEMENTOS[clave] };
+                    }
+                }
+            }
+
+            // 5. Búsqueda por distancia de Levenshtein
+            let mejorCoincidencia = null;
+            let menorDistancia = Infinity;
+            
+            for (const clave of Object.keys(ELEMENTOS)) {
+                const distancia = levenshteinDistance(fraseLimpia, clave);
+                const maxLen = Math.max(fraseLimpia.length, clave.length);
+                const similitud = 1 - (distancia / maxLen);
+                
+                if (similitud > 0.65 && distancia < menorDistancia) {
+                    menorDistancia = distancia;
+                    mejorCoincidencia = { clave, data: ELEMENTOS[clave] };
+                }
+            }
+
+            return mejorCoincidencia;
+        }
+
+        function levenshteinDistance(str1, str2) {
+            const matrix = [];
+            
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            
+            return matrix[str2.length][str1.length];
+        }
+
+        function mostrarElemento(clave, el, fraseOriginal) {
+            const htmlInfo = `
+                <div class="info-ok">
+                    <div class="info-row">
+                        <span class="info-title">Elemento:</span>
+                        <span class="info-value">${capitalizar(clave)}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-title">Nombre en quechua:</span>
+                        <span class="info-value">${el.quechua}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-title">Símbolo:</span>
+                        <span class="info-value">${el.simbolo}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-title">Número atómico:</span>
+                        <span class="info-value">${el.numero}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-title">Masa atómica:</span>
+                        <span class="info-value">${el.masa || "—"}</span>
+                    </div>
+                </div>
+            `;
+            mostrarGloboInfo(htmlInfo);
+            
+            hablar(`${capitalizar(clave)} es ${el.quechua} en quechua.`).then(() => {
+                // CAMBIO CRÍTICO: Asegurar que el modo cambie correctamente
+                modo = "confirmarOtro";
+                return hablar("¿Otro elemento? Di sí o no.");
+            }).then(() => {
+                mostrarDebug('Di "sí" para otro elemento o "no" para terminar');
+                // No iniciar automáticamente en móvil
+                if (!esMobile) {
+                    escucharConfirmacion();
+                }
+            });
+        }
+
+        function capitalizar(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        function mostrarGloboInfo(html) {
+            globoInfo.innerHTML = html;
+            globoInfo.classList.add('visible');
+        }
+
+        function ocultarGloboInfo() {
+            globoInfo.classList.remove('visible');
+            setTimeout(() => {
+                globoInfo.innerHTML = '';
+            }, 300);
+        }
+
+        // =============================================================================
+        // EVENT LISTENERS MEJORADOS CON MANEJO DE ESTADO
+        // =============================================================================
+        
+        btnIniciar.addEventListener('click', async () => {
+            // Reset completo del sistema
+            sesionActiva = false;
+            sistemaIniciado = false;
+            modo = "preguntarElemento";
+            intentosReconexion = 0;
+            tiempoEsperaReconexion = 1000;
+            
+            if (reconocimientoActual) {
+                try {
+                    reconocimientoActual.abort();
+                    reconocimientoActual = null;
+                } catch(e) {}
+            }
+            
+            // Forzar interacción de usuario para activar permisos
+            try {
+                // Crear un AudioContext temporalmente para activar audio en el navegador
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                await audioContext.close();
+            } catch (e) {
+                // Ignorar errores de AudioContext
+            }
+            
+            iniciarSistema();
+        });
+
+        btnMic.addEventListener('click', async () => {
+            // Asegurar que tenemos permisos antes de cada uso
+            if (!sistemaIniciado) return;
+            
+            // Detener cualquier reconocimiento activo
+            if (reconocimientoActual) {
+                try {
+                    reconocimientoActual.abort();
+                    reconocimientoActual = null;
+                } catch(e) {}
+            }
+            
+            try {
+                // Verificar permisos de nuevo antes de usar
+                const tienePermisos = await solicitarPermisosMicrofono();
+                if (!tienePermisos) {
+                    const htmlErr = `<div class="info-err">Necesito permisos de micrófono. Permite el acceso y recarga la página.</div>`;
+                    mostrarGloboInfo(htmlErr);
+                    return;
+                }
+                
+                // CAMBIO CRÍTICO: Verificar modo correctamente
+                console.log("Modo actual:", modo); // Debug
+                
+                if (modo === "preguntarElemento") {
+                    escucharElemento();
+                } else if (modo === "confirmarOtro") {
+                    escucharConfirmacion();
+                } else {
+                    // Fallback - resetear a modo inicial
+                    modo = "preguntarElemento";
+                    escucharElemento();
+                }
+            } catch (error) {
+                console.error('Error al usar micrófono:', error);
+                mostrarDebug('Error al acceder al micrófono. Recarga la página.');
+            }
+        });
+
+        // Prevenir zoom en dispositivos móviles al hacer doble tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // Cleanup al cerrar/recargar página
+        window.addEventListener('beforeunload', () => {
+            if (reconocimientoActual) {
+                try {
+                    reconocimientoActual.abort();
+                } catch(e) {}
+            }
+            speechSynthesis.cancel();
+        });
+
+        // Inicializar cuando se carga la página
+        document.addEventListener('DOMContentLoaded', async () => {
+            mostrarDebug("Toca 'Iniciar Bot' para comenzar");
+            
+            // Detectar Brave de forma más precisa
+            if (navigator.brave) {
+                navigator.brave.isBrave().then((isBrave) => {
+                    if (isBrave) {
+                        esBrave = true;
+                        mostrarDebug('Brave detectado. Si hay problemas, desactiva el escudo de Brave para esta página');
+                    }
+                }).catch(() => {
+                    // Usar detección alternativa
+                    esBrave = navigator.userAgent.includes('Brave');
+                });
+            }
+            
+            // Detectar si la página se carga por HTTPS (necesario para micrófono)
+            if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+                mostrarDebug('Necesita conexión segura (HTTPS) para usar el micrófono');
+                const htmlWarning = `<div class="info-err">Para usar el micrófono necesitas abrir esta página con HTTPS</div>`;
+                mostrarGloboInfo(htmlWarning);
+            }
+            
+            // En móviles, mostrar instrucciones específicas
+            if (esMobile) {
+                btnMic.style.display = 'none';
+                setTimeout(() => {
+                    mostrarDebug('Móvil detectado. Toca "Iniciar Bot" para comenzar');
+                }, 2000);
+            }
+            
+            // Para Brave, mostrar instrucciones específicas
+            setTimeout(() => {
+                if (esBrave) {
+                    mostrarDebug('Brave detectado. Si hay problemas, desactiva el escudo de Brave para esta página');
+                }
+            }, 3000);
+        });
+
+    </script>
+</body>
+</html>
