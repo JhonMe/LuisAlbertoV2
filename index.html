@@ -986,7 +986,7 @@
             
             // Saludo inicial
             try {
-                await hablar("Hola, soy Luisa. ¿Qué elemento químico quieres conocer?");
+                await hablar("Hola, soy Luisa. ¿Qué elemento químico quieres conocer Albertino?");
                 mostrarDebug('Toca el botón del micrófono y pregunta por un elemento');
             } catch (error) {
                 console.error('Error en saludo inicial:', error);
@@ -1210,7 +1210,7 @@
             mostrarGloboInfo(htmlDicho);
 
             if (/\bno\b/.test(resp)) {
-                hablar("Nos vemos pronto, Albertino. Tupananchiskama.").then(() => {
+                hablar("Nos vemos pronto, Albertino. Aíwala. Tupananchiskama.").then(() => {
                     const htmlFinal = `<div class="info-row"><span class="info-title">Hasta luego:</span><span class="info-value"><b>Tupananchiskama</b></span></div>`;
                     mostrarGloboInfo(htmlFinal);
                     sesionActiva = false;
